@@ -1,3 +1,6 @@
+# Not done yet. 
+# To be continued... 
+
 # Requirements: 
 * Implement a program called resize that resizes (i.e., enlarges) 24-bit uncompressed BMPs by a factor of n.
 * Implement your program in a file called resize.c inside of ~/pset3/resize/less/.
