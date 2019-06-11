@@ -1,5 +1,6 @@
 # Not done yet. 
 # To be continued... 
+## For now it resizes the image size (not sure if corrrectly), but do not resize image itself
 
 # Requirements: 
 * Implement a program called resize that resizes (i.e., enlarges) 24-bit uncompressed BMPs by a factor of n.
