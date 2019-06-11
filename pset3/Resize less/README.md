@@ -5,7 +5,7 @@
   * the first (n) must be a positive integer less than or equal to 100,
   * the second must be the name of a BMP to be resized, and
   * the third must be the name of the resized version to be written.
-* + If your program is not executed with such, it should remind the user of correct usage, as with printf, and main should return 1.
+* Plus, if your program is not executed with such, it should remind the user of correct usage, as with printf, and main should return 1.
 
 * Your program, if it uses malloc, must not leak any memory. Be sure to call free.
 
