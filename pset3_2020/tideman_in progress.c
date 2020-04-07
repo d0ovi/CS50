@@ -161,10 +161,43 @@ void add_pairs(void)
     return;
 }
 
+// I need new swap function for sorting
+void swap(pair *xp, pair *yp)
+{
+    pair temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
 {
     // TODO
+    
+    // sort by selection sort.
+    // TODO
+    int max = 0;
+    int max_index = 0;
+
+    // i for every pair[i]
+    for (int i = 0; i < pair_count; i++)
+    {
+        //j for every preferences[pairs[j].winner][pairs[j].loser]
+        for (int j = i; j < pair_count; j++)
+        {
+            if (preferences[pairs[j].winner][pairs[j].loser] > max)
+            {
+                max = preferences[pairs[j].winner][pairs[j].loser];
+                //those max index is the same as j.
+                max_index = j;
+            }
+        }
+
+        // swap from previous function
+        swap(&pairs[max_index], &pairs[i]);
+        // you need to degrade max to zero, as the loop with the j is not having the largest element anymore, because it's used already.
+        max = 0;
+
     return;
 }
 
