@@ -205,6 +205,28 @@ void sort_pairs(void)
 void lock_pairs(void)
 {
     // TODO
+    //wrong approach:
+    for (int i = 0; i < pair_count; i++)
+    {
+        if (i == (pair_count - 1))
+        {
+            for (int j = 0; j < pair_count; j++)
+            {
+                if (locked[pairs[j].winner][pairs[j].loser] == false)
+                {
+                    //printf("ka cia turim? :D ");
+                    locked[pairs[i].winner][pairs[i].loser] = true;
+                    //printf("last pairs' edge: %d winner over %d loser, locked - %d\n", pairs[i].winner, pairs[i].loser, locked[pairs[i].winner][pairs[i].loser]);
+                }
+            }
+        }
+        else
+        {
+            locked[pairs[i].winner][pairs[i].loser] = true;
+            //printf("%d winner over %d loser, locked - %d\n", pairs[i].winner, pairs[i].loser, locked[pairs[i].winner][pairs[i].loser]);
+        }
+
+    }
     return;
 }
 
