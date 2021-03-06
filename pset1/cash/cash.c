@@ -1,53 +1,52 @@
-#include <stdio.h>
 #include <cs50.h>
+#include <stdio.h>
 #include <math.h>
 
 int main(void)
 {
+    //First, let's ask user to input money owed.
+
     float change;
-    int rounds, coins = 0;
-    
+
     do
     {
-        change = get_float("Change to give:");
+        change = get_float("Change owed: ");
     }
     while (change < 0);
-           
-    // change -> rounds
-    change = round(change * 100);
 
-    //quarters
-    while (change - 25 >= 0)
-    {
-        change -= 25;
-        coins += 1;
-    }
+    //Then, let's convert the money into cents (use math.h for rounding)
+    int cents = round(change * 100);
 
-    // dimes
-    while (change - 10 >= 0)
+    //Assume that the only coins available are quarters (25¢), dimes (10¢), nickels (5¢), and pennies (1¢).
+    for (int i = 0; i < cents; i++)
     {
-        change -= 10;
-        coins += 1;
+        int coins;
+        //4 loops for every coin to check.
+        // is it possible to make it in less lines?
+        while (cents >= 25)
+        {
+            int coins_25 = cents / 25;
+            coins = coins + coins_25;
+            cents = cents - (coins * 25);
+        }
+        while (cents >= 10)
+        {
+            int coins_10 = cents / 10;
+            coins = coins + coins_10;
+            cents = cents - (coins_10 * 10);
+        }
+        while (cents >= 5)
+        {
+            int coins_5 = cents / 5;
+            coins = coins + coins_5;
+            cents = cents - (coins_5 * 5);
+        }
+        while (cents >= 1)
+        {
+            int coins_1 = cents / 1;
+            coins = coins + coins_1;
+            cents = cents - (coins_1 * 1);
+        }
+        printf("%d\n", coins);
     }
-
-    //nickels
-    while (change - 5 >= 0)
-    {
-        change -= 5;
-        coins += 1;
-    }
-
-    //pennies
-    while (change - 1 >= 0)
-    {
-        change -= 1;
-        coins += 1;
-    }
-
-    for(int i = 0, int i < change, i++)
-    {
-        
-    }
-    //print min amount of coins
-    printf("%i\n", coins);
 }
