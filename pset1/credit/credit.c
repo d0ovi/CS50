@@ -1,76 +1,89 @@
-#include <stdio.h>
 #include <cs50.h>
+#include <stdio.h>
 #include <math.h>
 
 int main(void)
 {
-    long cc_number, c, cc;
-    int last, s2_last;
-    int sum1 = 0, sum2 = 0, sum;
-    long amex =   10000000000000;
-    long master = 100000000000000;
-    long visa16 = 1000000000000000;
-    long visa13 = 10000000000000;
-    int len;
+    //declare the variabbles:
 
-    // get CC number
+    long number, a;
+    int sum = 0, mult_digit, other_digit, len = 0;
+
+    //First, let's get the card number input from the user
     do
     {
-        cc_number = get_long("cc nr:");
+        number = get_long("Number: ");
     }
-    while (cc_number <= 0);
-    c = cc_number;
-    cc = cc_number;
-    //calculate sums
-    while (cc_number > 0)
+    while (number <= 0);
+
+    // a is like a dummy variable with the number info in it.
+    a = number;
+
+    //First, let's try to multiple every other digit by 2, starting with the second to last:
+    while (a > 0)
     {
-        // second to last digit * 2:
-        s2_last = ((cc_number % 100) / 10) * 2;
-        // last digit:
-        last = cc_number % 10;
-        // if second to last *2 is two digits, need to calculate to one digit:
-        if (s2_last > 9)
+        //first line calculates the number, second line removes two last digits from the number, third line adds numbers to the sum
+        mult_digit = a % 100 / 10 * 2;
+        a = a / 100;
+        if (mult_digit < 10)
         {
-            sum1 = (s2_last % 10) + ((s2_last % 100) / 10) + sum1;
+            sum = sum + mult_digit;
         }
-        else 
+        else
         {
-            sum1 = sum1 + s2_last;
+            sum = sum + (mult_digit % 10) + mult_digit / 10;
         }
-
-        // last digits sum:
-        sum2 = sum2 + last;
-
-        // remove two last digits from the cc number and calculate others digits sums in the loop:
-        cc_number = cc_number / 100;
     }
-    
-    // sum of all the digits:
-    sum = sum1 + sum2;
-
-    // count the length of the CC number
-    for (len = 0; c > 0; len++)
+    //second loop is for adding other number without multipling
+    a = number;
+    while (a > 0)
     {
-        c = c / 10;
+        other_digit = a % 10;
+        sum = sum + other_digit;
+        a = a / 100;
     }
-    // conditions for the bank
-    // amex starts with 37 or 34; 15
-    // master 51, 52, 53, 54, 55; 16
-    // visa 4; 13 or 16
-    if (len == 15 && (sum % 10) == 0 && (cc / (amex) == 34 || cc / (amex) == 37))
+
+    //Now let's test which card is it:
+    // For all cards we need the lenght of number:
+
+    a = number;
+    while (a > 0)
+    {
+        a = a / 10;
+        len++;
+    }
+    //printf("%d\n", len);
+    // let's find first and last digits:
+    a = number;
+    long n1 = a, n2 = a; // n2 will hold the first two digits, n1 is the first digit
+
+    while (a)
+    {
+        n2 = n1;
+        n1 = a;
+        a /= 10;
+    }
+    //Check if it is AMEX:
+    if (((sum % 10) == 0) && ((n2 == 34) || (n2 == 37)) && (len == 15))
     {
         printf("AMEX\n");
+        return 0;
     }
-    else if (sum % 10 == 0 && len == 16 && (cc / master > 50 && cc / master < 56))
-    {
-        printf("MASTERCARD\n");
-    }
-    else if (((sum % 10) == 0 && len == 16 && (cc / visa16 == 4)) || (sum % 10 == 0 && len == 13 && cc / visa13 == 4))
+    //Check if it is VISA:
+    else if (((sum % 10) == 0) && (n1 == 4) && ((len == 13) || (len == 16)))
     {
         printf("VISA\n");
+        return 0;
+    }
+    //Check if it is MasterCard:
+    else if (((sum % 10) == 0) && ((n2 == 51) || (n2 == 52) || (n2 == 53) || (n2 == 54) || (n2 == 55)) && (len == 16))
+    {
+        printf("MASTERCARD\n");
+        return 0;
     }
     else
     {
         printf("INVALID\n");
+        return 0;
     }
 }
